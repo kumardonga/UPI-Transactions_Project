@@ -1,0 +1,30 @@
+resources:
+  jobs:
+    UPI:
+      name: UPI
+      tasks:
+        - task_key: UPI_PIPELINE
+          pipeline_task:
+            pipeline_id: 4134dcf5-abc0-4eaf-ae47-8afd773cea3e
+            full_refresh: false
+        - task_key: Pipeline_Metrics
+          depends_on:
+            - task_key: UPI_PIPELINE
+          notebook_task:
+            notebook_path: /Repos/Project/UPI-Transactions_Project/Transactions
+              LDP/Pipeline_Metrics
+            source: WORKSPACE
+        - task_key: Statistics
+          depends_on:
+            - task_key: Pipeline_Metrics
+          notebook_task:
+            notebook_path: /Repos/Project/UPI-Transactions_Project/Transactions LDP/Statistics
+            source: WORKSPACE
+      queue:
+        enabled: true
+      parameters:
+        - name: pipeline_id
+          default: 4134dcf5-abc0-4eaf-ae47-8afd773cea3e
+        - name: run_date
+          default: "{{job.start_time.iso_datetime}}"
+      performance_target: PERFORMANCE_OPTIMIZED

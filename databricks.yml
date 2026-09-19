@@ -1,0 +1,5 @@
+bundle:
+  name: UPI-Transactions-Project
+
+include:
+  - resources/*.yml
